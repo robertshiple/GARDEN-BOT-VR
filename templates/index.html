@@ -1,5 +1,6 @@
 {% load static %}
 <html>
+
   <head>
     <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
       <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
@@ -7,8 +8,19 @@
   </head>
 
   <body>
+  <style>
+
+
+@import url('https://fonts.googleapis.com/css?family=Rubik');
+
+
+#head {
+    font-family: Rubik, serif;
+    font-size: 24px;
+}
+      </style>
   <div id="head"> GARDEN BOT VR </div>
-  <div id ="info"> Welcome to Garden Bot VR! Select some things you'd like to plant
+  <div> Welcome to Garden Bot VR! Select some things you'd like to plant
       <p>below and then select generate to get started!</div>
   {% for model in colladas %}
       <img src="{{ model.file.url }}">
