@@ -1,0 +1,27 @@
+<html>
+  <head>
+    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
+      <script src="../gardenbotvr/static/gardenbotvr/js/script.js"></script>
+  </head>
+  <body>
+    <a-scene>
+
+        <a-assets>
+    <a-asset-item id="flower" src="flower.gltf"></a-asset-item>
+  </a-assets>
+        <a-entity collada-model="#flower"></a-entity>
+        
+             <a-assets>
+    <a-asset-item id="guy" src="Cesium_Man.gltf"></a-asset-item>
+  </a-assets>
+        <a-entity collada-model="#guy"></a-entity>
+        <a-tetrahedron color="#FF926B" radius="5"></a-tetrahedron>
+      <a-box position="-1 0.5 -3" rotation="0 45 0" color="#4CC3D9"></a-box>
+      <a-plane position="0 0 -1" rotation="-90 0 0" width="25" height="25" color="#7BC8A4"></a-plane>
+        <a-plane position=".001 .001 1" rotation="-90 0 0" width="5" height="15" color="#ff9d1e"></a-plane>
+      <a-sky color="#ECECEC"></a-sky>
+          
+
+    </a-scene>
+  </body>
+</html>
