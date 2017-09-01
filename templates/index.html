@@ -1,29 +1,27 @@
 {% load static %}
 <html>
 
-  <head>
+<head>
     <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-      <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
-      <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/style.css' %}">
-  </head>
-
-  <body>
-  <style>
+    <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
+    <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/style.css' %}">
+</head>
 
 
-@import url('https://fonts.googleapis.com/css?family=Rubik');
+<body>
 
+    <div id="head"> GARDEN BOT VR</div>
+    <div> Welcome to Garden Bot VR! Select some things you'd like to plant
+        <p>below and then select generate to get started!</div>
 
-#head {
-    font-family: Rubik, serif;
-    font-size: 24px;
-}
-      </style>
-  <div id="head"> GARDEN BOT VR </div>
-  <div> Welcome to Garden Bot VR! Select some things you'd like to plant
-      <p>below and then select generate to get started!</div>
-  {% for model in colladas %}
-      <img src="{{ model.file.url }}">
-  {% endfor %}
-  </body>
+    {% for model in colladas %}
+        <a-scene>
+            <a-assets>
+                <a-asset-item id="model" src="{{ model.file.url }}"></a-asset-item>
+            </a-assets>
+            <a-entity collada-model="#model"></a-entity>
+        </a-scene>
+    {% endfor %}
+
+</body>
 </html>
