@@ -38,6 +38,7 @@ INSTALLED_APPS = [
     'django.contrib.messages',
     'django.contrib.staticfiles',
     'gardenbotvr.apps.GardenbotvrConfig',
+    'rest_framework',
 ]
 
 MIDDLEWARE = [
@@ -127,3 +128,12 @@ MEDIA_URL = '/media/'
 
 STATICFILES_DIRS = [os.path.join(BASE_DIR, 'gardenbotvr', 'static'),
                     ]
+
+
+REST_FRAMEWORK = {
+    # Use Django's standard `django.contrib.auth` permissions,
+    # or allow read-only access for unauthenticated users.
+    'DEFAULT_PERMISSION_CLASSES': [
+        'rest_framework.permissions.DjangoModelPermissionsOrAnonReadOnly'
+    ]
+}

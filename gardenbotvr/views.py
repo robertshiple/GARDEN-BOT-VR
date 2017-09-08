@@ -1,9 +1,24 @@
-from django.shortcuts import render
-from datetime import datetime
-import random
+from django.shortcuts import render, redirect
 from .models import ThreeD
+from .forms import ThreeDForm
 # Create your views here.
+
 def home(request):
     colladas = ThreeD.objects.all()
     context = {'colladas': colladas}
     return render(request, 'index.html', context)
+
+def create_collada(request):
+
+    form = ThreeDForm(data=request.POST or None)
+    if form.is_valid():
+        threed = form.save(commit=False)
+        threed.save()
+        return redirect('/thanks')
+
+    context = {'form': form}
+    return render(request, 'threedform.html', context)
+
+def scene(request):
+    context = {}
+    return render(request, 'whatever.html', context)

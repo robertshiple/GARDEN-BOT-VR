@@ -1,27 +1,30 @@
 {% load static %}
 <html>
 
+<script
+  src="http://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
+
 <head>
-    <script src="https://aframe.io/releases/0.6.1/aframe.min.js"></script>
-    <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
     <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/style.css' %}">
+
 </head>
 
 
 <body>
 
     <div id="head"> GARDEN BOT VR</div>
-    <div> Welcome to Garden Bot VR! Select some things you'd like to plant
-        <p>below and then select generate to get started!</div>
-
-    {% for model in colladas %}
-        <a-scene>
-            <a-assets>
-                <a-asset-item id="model" src="{{ model.file.url }}"></a-asset-item>
-            </a-assets>
-            <a-entity collada-model="#model"></a-entity>
-        </a-scene>
-    {% endfor %}
-
+    <div id="information"> Garden Bot is a small interactive vr garden experience. Choose some<br>
+        plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
+    </div>
+    <div class="colladas">
+{% for model in colladas %}
+    <img src="{{ model.thumb.url }}" width="200px" height="200px">
+{% endfor %}
+    </div>
 </body>
+<button class="button-secondary pure-button">GENERATE</button
+
+<script src="{% static 'gardenbotvr/js/script.js' %}"></script>
 </html>
