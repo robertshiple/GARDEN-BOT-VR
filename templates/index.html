@@ -1,15 +1,19 @@
 {% load static %}
 <html>
 
+
 <script
   src="http://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
   crossorigin="anonymous"></script>
 
 <head>
-    <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/style.css' %}">
+    <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/index.css' %}">
 
 </head>
+<header>
+
+</header>
 
 
 <body>
@@ -23,10 +27,13 @@
     <img src="{{ model.thumb.url }}" width="200px" height="200px">
 {% endfor %}
     </div>
-</body>
-<form action="http://127.0.0.1:8000/scene">
-    <input type="submit" value="GENERATE" />
-</form>
+<div id="button">
+    <button class="myButton" ><a href="http://127.0.0.1:8000/scene/" id="generate">GENERATE</a></button>
 
+</div>
+
+</body>
+
+<div><footer>made by <a href="https://twitter.com/robertshiple" id="tagname"> @robertshiple </a></footer></div>
 <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
 </html>
