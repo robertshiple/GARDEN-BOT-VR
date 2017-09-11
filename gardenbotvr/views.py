@@ -20,5 +20,9 @@ def create_collada(request):
     return render(request, 'threedform.html', context)
 
 def scene(request):
-    context = {}
+    colladas = ThreeD.objects.all()
+
+    selectedmodels = [c.name for c in colladas ]
+
+    context = {'colladas': colladas, 'selectedmodels': selectedmodels}
     return render(request, 'whatever.html', context)

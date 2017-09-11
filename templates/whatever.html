@@ -1,7 +1,13 @@
 {% load static %}
 
 
+
+
 <head>
+    <script
+  src="http://code.jquery.com/jquery-3.2.1.js"
+  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+  crossorigin="anonymous"></script>
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-teleport-controls@0.2.x/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>
@@ -11,19 +17,42 @@
 </head>
 
 <body>
+
+<script>
+
+    {% autoescape off %}
+        let selectedmodels = {{ selectedmodels }};
+    {% endautoescape %}
+
+    function getPlant () {
+        let randommodel = Math.floor(Math.random() * selectedmodels.length);
+        let plant = selectedmodels[randommodel];
+        return plant;
+    }
+
+    AFRAME.registerComponent('random-model', {
+        dependencies: ['id', 'url'],
+
+        init: function () {
+            this.el.setAttribute('id', 'url', getPlant());
+        }
+    });
+
+
+</script>
+
   <a-scene>
       
-
+    <!-- Assets. -->
     <a-assets>
-        <a-mixin id="voxel"
-          collada-model="url({% static 'gardenbotvr/models/plant_8kmZM8M.dae' %})" >
-            ></a-mixin>
+        {% for model in colladas %}
+        <a-mixin id="{{ model.name }}" collada-model="url({{ model.file.url }})" ></a-mixin>
+        {%  endfor %}
     </a-assets>
 
     <a-cylinder id="ground" src="#groundTexture" radius="30" height="0.1" color="#4286f4"></a-cylinder>
 
     <a-sky id="background" src="#skyTexture" theta-length="90" radius="30" color="#fdff91"></a-sky>
-
 
 
     <!-- Hands. -->
@@ -32,7 +61,8 @@
 
     <!-- Camera. -->
     <a-camera>
-      <a-cursor intersection-spawn="event: click; mixin: voxel"></a-cursor>
+      <a-cursor id='cursor' intersection-spawn="event: click; mixin: voxel"></a-cursor>
     </a-camera>
+
   </a-scene>
 </body>
