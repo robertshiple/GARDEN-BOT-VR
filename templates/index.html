@@ -1,39 +1,48 @@
 {% load static %}
+
 <html>
 
 
-<script
-  src="http://code.jquery.com/jquery-3.2.1.js"
-  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  crossorigin="anonymous"></script>
-
 <head>
+
+    <script
+            src="http://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
+    <!-- Latest compiled and minified CSS -->
+    <link rel="stylesheet" href="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/css/bootstrap.min.css"
+          integrity="sha384-BVYiiSIFeK1dGmJRAkycuHAHRg32OmUcww7on3RYdg4Va+PmSTsz/K68vbdEjh4u" crossorigin="anonymous">
     <link rel="stylesheet" type="text/css" href="{% static 'gardenbotvr/css/index.css' %}">
 
 </head>
-<header>
-
-</header>
 
 
 <body>
 
-    <div id="head"> GARDEN BOT VR</div>
-    <div id="information"> Garden Bot is a small interactive vr garden experience. Choose some<br>
-        plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
-    </div>
-    <div class="colladas">
-{% for model in colladas %}
-    <img src="{{ model.thumb.url }}" width="200px" height="200px">
+<header>
+
+</header>
+
+<div id="head"> GARDEN BOT VR</div>
+<div id="information"> Garden Bot is a small interactive vr garden experience. Choose some<br>
+    plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
+</div>
+<div id="colladasContainer">
+    {% comment %}{% for model in colladas %}
+        <img src="{{ model.thumb.url }}" width="200px" height="200px">
 {% endfor %}
-    </div>
+{% endcomment %}
+</div>
 <div id="button">
-    <button class="myButton" ><a href="http://127.0.0.1:8000/scene/" id="generate">GENERATE</a></button>
+    <button class="myButton"><a href="http://127.0.0.1:8000/scene/" id="generate">GENERATE</a></button>
 
 </div>
 
 </body>
 
-<div><footer>made by <a href="https://twitter.com/robertshiple" id="tagname"> @robertshiple </a></footer></div>
+<div>
+    <footer>made by <a href="https://twitter.com/robertshiple" id="tagname" target="_blank"> &nbsp;@robertshiple </a>
+    </footer>
+</div>
 <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
 </html>

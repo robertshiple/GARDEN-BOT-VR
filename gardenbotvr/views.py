@@ -1,12 +1,15 @@
 from django.shortcuts import render, redirect
 from .models import ThreeD
 from .forms import ThreeDForm
+from django.contrib import messages
 # Create your views here.
 
 def home(request):
     colladas = ThreeD.objects.all()
     context = {'colladas': colladas}
+    messages.add_message(request, messages.INFO, 'Hello world.')
     return render(request, 'index.html', context)
+
 
 def create_collada(request):
 

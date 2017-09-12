@@ -1,3 +1,5 @@
 {
-  "gardenbotvr/tests/test_models.py::TestPost::()::test_init": true
+  "gardenbotvr/tests/test_models.py::TestPost::()::test_init": true,
+  "gardenbotvr/tests/test_views.py::TestHomeView::()::test_anonymous": true,
+  "gardenbotvr/tests/test_views.py::Testcreate_colladaView::()::test_anonymous": true
 }
