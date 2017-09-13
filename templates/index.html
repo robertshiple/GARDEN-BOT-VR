@@ -28,13 +28,20 @@
     plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
 </div>
 <div id="colladasContainer">
+
     {% comment %}{% for model in colladas %}
         <img src="{{ model.thumb.url }}" width="200px" height="200px">
 {% endfor %}
 {% endcomment %}
+    
 </div>
+
 <div id="button">
-    <button class="myButton"><a href="http://127.0.0.1:8000/scene/" id="generate">GENERATE</a></button>
+
+ <form action="">
+  <input type="hidden" name="plants">
+  <button class="myButton">GENERATE</button>
+</form>
 
 </div>
 

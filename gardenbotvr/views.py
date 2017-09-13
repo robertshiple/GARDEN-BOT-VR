@@ -23,9 +23,12 @@ def create_collada(request):
     return render(request, 'threedform.html', context)
 
 def scene(request):
-    colladas = ThreeD.objects.all()
+    selected = request.POST['plants']
 
-    selectedmodels = [c.name for c in colladas ]
+
+    colladas = ThreeD.objects.filter(pk__in=selected)
+
+    selectedmodels = [c.file.url for c in colladas ]
 
     context = {'colladas': colladas, 'selectedmodels': selectedmodels}
     return render(request, 'whatever.html', context)

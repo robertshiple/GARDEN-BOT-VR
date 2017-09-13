@@ -14,6 +14,6 @@
         $("#cursor").attr('intersection-spawn', `event: click; mixin: ${getPlant()}`);
     }
 
-
+    $()
 
 </script>

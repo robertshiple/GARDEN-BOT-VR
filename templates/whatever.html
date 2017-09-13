@@ -1,9 +1,15 @@
+<!DOCTYPE html>
+<html>
+
+
 {% load static %}
 
 
 
 
 <head>
+<title>scene</title>
+
     <script
   src="http://code.jquery.com/jquery-3.2.1.js"
   integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
@@ -11,48 +17,74 @@
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-teleport-controls@0.2.x/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>
-    <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/random-color.js"></script>
     <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
-    <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>
+{#    <script src="random_model.js"></script>#}
+
+{#    <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>#}
 </head>
 
 <body>
 
 <script>
-
     {% autoescape off %}
-        let selectedmodels = {{ selectedmodels }};
+        let models = {{ selectedmodels }};
     {% endautoescape %}
 
-    function getPlant () {
-        let randommodel = Math.floor(Math.random() * selectedmodels.length);
-        let plant = selectedmodels[randommodel];
-        return plant;
-    }
+    function getRandomModel() {
+    //returns a random url
 
-    AFRAME.registerComponent('random-model', {
-        dependencies: ['id', 'url'],
+        return models[Math.floor(Math.random() * models.length)];
 
-        init: function () {
-            this.el.setAttribute('id', 'url', getPlant());
-        }
+}
+
+AFRAME.registerComponent('intersection-spawn', {
+  schema: {
+    default: '',
+    parse: AFRAME.utils.styleParser.parse
+  },
+
+  init: function () {
+    const data = this.data;
+    const el = this.el;
+
+    el.addEventListener(data.event, evt => {
+      // Create element.
+      const spawnEl = document.createElement('a-entity');
+
+      // Snap intersection point to grid and offset from center.
+      spawnEl.setAttribute('position', evt.detail.intersection.point);
+
+      spawnEl.setAttribute('collada-model', `url(${getRandomModel()})`);
+
+      // Set components and properties.
+      Object.keys(data).forEach(name => {
+        if (name === 'event') { return; }
+        AFRAME.utils.entity.setComponentProperty(spawnEl, name, data[name]);
+      });
+
+      // Append to scene.
+      el.sceneEl.appendChild(spawnEl);
     });
+  }
+});
 
 
 </script>
+
 
   <a-scene>
       
     <!-- Assets. -->
     <a-assets>
         {% for model in colladas %}
-        <a-mixin id="{{ model.name }}" collada-model="url({{ model.file.url }})" ></a-mixin>
+        <a-mixin id="voxel" >
+        </a-mixin>
         {%  endfor %}
     </a-assets>
 
-    <a-cylinder id="ground" src="#groundTexture" radius="30" height="0.1" color="#4286f4"></a-cylinder>
+    <a-cylinder id="ground" radius="30" height="0.1" color="#4286f4"></a-cylinder>
 
-    <a-sky id="background" src="#skyTexture" theta-length="90" radius="30" color="#fdff91"></a-sky>
+    <a-sky id="background" theta-length="90" radius="30" color="#fdff91"></a-sky>
 
 
     <!-- Hands. -->
@@ -66,3 +98,5 @@
 
   </a-scene>
 </body>
+
+</html>
