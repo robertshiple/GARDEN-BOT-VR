@@ -19,37 +19,33 @@
 
 <body>
 
-<header>
+    <header>
+    </header>
 
-</header>
+    <div id="head"> GARDEN BOT VR</div>
 
-<div id="head"> GARDEN BOT VR</div>
-<div id="information"> Garden Bot is a small interactive vr garden experience. Choose some<br>
-    plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
-</div>
-<div id="colladasContainer">
+    <div id="information"> Garden Bot is a small interactive vr garden experience. Choose some<br>
+        plants from below that you'd like to use in your garden and select 'generate' to begin.<p>
+    </div>
 
-    {% comment %}{% for model in colladas %}
-        <img src="{{ model.thumb.url }}" width="200px" height="200px">
-{% endfor %}
-{% endcomment %}
-    
-</div>
+    <div id="colladasContainer">
+        {#    leave blank to populate with AJAX    #}
+    </div>
 
-<div id="button">
+    <div id="button">
+         <form action="{% url 'scene' %}" method="post">
+             {% csrf_token %}
+              <input type="hidden" id="plants" name="plants" value="[]">
+              <button class="myButton">GENERATE</button>
+        </form>
+    </div>
 
- <form action="">
-  <input type="hidden" name="plants">
-  <button class="myButton">GENERATE</button>
-</form>
 
-</div>
+    <div>
+        <footer>made by <a href="https://twitter.com/robertshiple" id="tagname" target="_blank"> &nbsp;@robertshiple </a>
+        </footer>
+    </div>
 
+    <script src="{% static 'gardenbotvr/js/script.js' %}"></script>
 </body>
-
-<div>
-    <footer>made by <a href="https://twitter.com/robertshiple" id="tagname" target="_blank"> &nbsp;@robertshiple </a>
-    </footer>
-</div>
-<script src="{% static 'gardenbotvr/js/script.js' %}"></script>
 </html>

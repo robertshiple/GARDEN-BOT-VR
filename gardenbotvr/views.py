@@ -24,7 +24,7 @@ def create_collada(request):
 
 def scene(request):
     selected = request.POST['plants']
-
+    selected = [int(select) for select in selected.split(',')]
 
     colladas = ThreeD.objects.filter(pk__in=selected)
 
