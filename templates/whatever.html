@@ -16,7 +16,7 @@
   crossorigin="anonymous"></script>
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-teleport-controls@0.2.x/dist/aframe-teleport-controls.min.js"></script>
-    <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>
+     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>#}
     <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
 {#    <script src="random_model.js"></script>#}
 
@@ -47,7 +47,8 @@ AFRAME.registerComponent('intersection-spawn', {
     const data = this.data;
     const el = this.el;
 
-    el.addEventListener(data.event, evt => {
+
+    $(el).on(data.event, evt => {
       // Create element.
       const spawnEl = document.createElement('a-entity');
 
@@ -82,10 +83,19 @@ AFRAME.registerComponent('intersection-spawn', {
         {%  endfor %}
     </a-assets>
 
-    <a-cylinder id="ground" radius="30" height="0.1" color="#c0ff82"></a-cylinder>
+      <a-box color="white" opacity="0.18" width="4" depth="7" height="2">
+    <a-animation attribute="position" from="-4.585 17.063 29.897" to="-4.585 17.063 -33.181" delay="0" dur="36000" easing="linear" repeat="indefinite" fill="both"></a-animation>
+    </a-box>
+
+    <a-cylinder id="ground" material="shader: flat" radius="30" height="0.1" color="#c0ff82" ></a-cylinder>
+
+    {% for model in sceneobjects %}
+    <a-collada-model src="{{ model.file.url }}"></a-collada-model>
+    {%  endfor %}
 
     <a-sky id="background" theta-length="90" radius="30" color="#aaffe8"></a-sky>
 
+<a-plane color="#ffa72d" height="10" width="10" rotation="-90 0 0" position="-3.120 0.079 2.564"  material="shader: flat" intersection-spawn="event: click; mixin: voxel"></a-plane>
 
     <!-- Hands. -->
     <a-entity id="teleHand" hand-controls="left" teleport-controls="type: parabolic; collisionEntities: [mixin='voxel'], #ground"></a-entity>
@@ -93,7 +103,7 @@ AFRAME.registerComponent('intersection-spawn', {
 
     <!-- Camera. -->
     <a-camera>
-      <a-cursor id='cursor' intersection-spawn="event: click; mixin: voxel"></a-cursor>
+      <a-cursor id="cursor"></a-cursor>
     </a-camera>
 
   </a-scene>

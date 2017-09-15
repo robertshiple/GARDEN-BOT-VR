@@ -4,9 +4,8 @@ import os
 # Create your models here.
 class ThreeD(models.Model):
     THREE_D_TYPES = (
-        ('PLT', 'Plant'),
-        ('FWR', 'Flower'),
-        ('OTR', 'Other'),
+        ('ENT', 'ENTITY'),
+        ('SCN', 'SCENE'),
     )
 
     file = models.FileField(upload_to=os.path.join('gardenbotvr', 'models'))
@@ -15,6 +14,5 @@ class ThreeD(models.Model):
     name = models.CharField(max_length=30)
     type = models.CharField(max_length=30, choices=THREE_D_TYPES)
 
-
     def __str__(self):
-        return self.name
+        return f'{self.name} {self.type}'

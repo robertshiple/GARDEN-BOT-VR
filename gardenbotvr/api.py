@@ -3,6 +3,11 @@ from rest_framework import viewsets
 from .models import ThreeD
 
 
-class ThreeDViewSet(viewsets.ModelViewSet):
-    queryset = ThreeD.objects.all()
+class EntityViewSet(viewsets.ModelViewSet):
+    queryset = ThreeD.objects.filter(type='ENT')
+    serializer_class = ThreeDSerializer
+
+
+class SceneViewSet(viewsets.ModelViewSet):
+    queryset = ThreeD.objects.filter(type='SCN')
     serializer_class = ThreeDSerializer

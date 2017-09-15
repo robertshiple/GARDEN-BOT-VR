@@ -15,22 +15,22 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from gardenbotvr.views import home
+from gardenbotvr.views import HomeView
 from django.conf import settings
 from django.conf.urls.static import static
 from gardenbotvr.views import create_collada, scene
-from gardenbotvr.api import ThreeDViewSet
+from gardenbotvr.api import EntityViewSet
 from rest_framework import routers
 
 
 router = routers.DefaultRouter()
-router.register(r'threed', ThreeDViewSet)
+router.register(r'entity', EntityViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', home, name='home'),
-    url(r'^threed_create/', create_collada, name='collada'),
-    url(r'^api/v1/', include(router.urls)),
+    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^threed/create/', create_collada, name='collada'),
+    url(r'^api/v1/', include(router.urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^scene/', scene, name='scene'),
 
