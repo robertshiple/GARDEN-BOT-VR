@@ -15,7 +15,7 @@ Including another URLconf
 """
 from django.conf.urls import url, include
 from django.contrib import admin
-from gardenbotvr.views import HomeView
+from gardenbotvr.views import home
 from django.conf import settings
 from django.conf.urls.static import static
 from gardenbotvr.views import create_collada, scene
@@ -31,7 +31,7 @@ router.register(r'coordinate', CoordinateViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
-    url(r'^$', HomeView.as_view(), name='home'),
+    url(r'^$', home, name='home'),
     url(r'^threed/create/', create_collada, name='collada'),
     url(r'^api/v1/', include(router.urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),

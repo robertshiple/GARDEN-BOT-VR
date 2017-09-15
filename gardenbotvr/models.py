@@ -4,6 +4,7 @@ import os
 
 class Scene(models.Model):
     name = models.CharField(max_length=30)
+    thumb = models.ImageField(upload_to=os.path.join('gardenbotvr', 'scenes'))
     template = models.CharField(max_length=30)
     skycolor = models.CharField(max_length=30, default='#aaffe8')
     groundcolor = models.CharField(max_length=30, default='#c0ff82')
@@ -18,6 +19,9 @@ class Entity(models.Model):
     file = models.FileField(upload_to=os.path.join('gardenbotvr', 'models'))
     thumb = models.ImageField(upload_to=os.path.join('gardenbotvr', 'thumbs'))
     uploaded = models.DateTimeField()
+
+    class Meta:
+        verbose_name_plural = 'entities'
 
     def __str__(self):
         return f'{self.name}'

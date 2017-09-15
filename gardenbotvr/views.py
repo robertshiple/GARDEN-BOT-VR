@@ -5,8 +5,13 @@ from django.contrib import messages
 from django.views.generic import TemplateView
 
 
-class HomeView(TemplateView):
-    template_name = 'index.html'
+
+
+def home(request):
+    scenes = Scene.objects.all()
+    entities = Entity.objects.all()
+    context = {'scenes': scenes, 'entities': entities}
+    return render(request, 'index.html', context)
 
 
 def create_collada(request):

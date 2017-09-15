@@ -27,7 +27,17 @@
     </div>
 
     <div id="colladasContainer">
-        {#    leave blank to populate with AJAX    #}
+
+        {%  for entity in entities %}
+           <img src="{{ entity.thumb.url }}" width="200" height="200" data-collada="{{ entity.pk }}">
+        {% endfor %}
+
+    </div>
+
+    <div id="sceneContainer">
+       {%  for scene in scenes %}
+           {{ scene }}
+        {% endfor %}
     </div>
 
     <div id="button">
