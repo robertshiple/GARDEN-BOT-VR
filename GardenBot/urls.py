@@ -19,12 +19,15 @@ from gardenbotvr.views import HomeView
 from django.conf import settings
 from django.conf.urls.static import static
 from gardenbotvr.views import create_collada, scene
-from gardenbotvr.api import EntityViewSet
+from gardenbotvr.api import EntityViewSet, AssetViewSet, SceneViewSet, CoordinateViewSet
 from rest_framework import routers
 
 
 router = routers.DefaultRouter()
 router.register(r'entity', EntityViewSet)
+router.register(r'scene', SceneViewSet)
+router.register(r'asset', AssetViewSet)
+router.register(r'coordinate', CoordinateViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),

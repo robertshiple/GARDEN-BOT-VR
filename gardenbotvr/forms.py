@@ -1,8 +1,20 @@
 from django import forms
-from .models import ThreeD
+from .models import Entity, Scene, Asset
 
 
-class ThreeDForm(forms.ModelForm):
+class EntityForm(forms.ModelForm):
     class Meta:
-        model = ThreeD
-        fields = ('file', 'thumb', 'uploaded', 'name', 'type')
+        model = Entity
+        fields = ('file', 'thumb', 'uploaded', 'name')
+
+
+class AssetForm(forms.ModelForm):
+    class Meta:
+        model = Asset
+        fields = ('file', 'thumb', 'uploaded', 'name', 'is_moving', 'fchord', 'bchord', 'dchord')
+
+
+class SceneForm(forms.ModelForm):
+    class Meta:
+        model = Scene
+        fields = ('name', 'groundcolor', 'skycolor', 'template', 'assets')

@@ -1,4 +1,7 @@
 from django.contrib import admin
-from .models import ThreeD
+from .models import Scene, Entity, Asset, Coordinate
 
-admin.site.register(ThreeD)# Register your models here.
+admin.site.register(Scene)
+admin.site.register(Entity)
+admin.site.register(Asset)
+admin.site.register(Coordinate)
