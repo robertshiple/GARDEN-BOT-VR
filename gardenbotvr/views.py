@@ -32,13 +32,22 @@ class SceneFormView(CreateView):
 
 
 
-def scene(request):
+def scene(request, slug):
+    # retrieve scene by its name
+    scene = Scene.objects.get(slug=slug)
+    template_name = scene.template
+
+    # parse the users selected entities
     selected = request.POST['plants']
     selected = [int(select) for select in selected.split(',')]
 
-    colladas = Entity.objects.filter(pk__in=selected)
-    sceneobjects = Asset.objects.filter()
-    selectedmodels = [c.file.url for c in colladas ]
+    # retrieve user selection from the database
+    entities = Entity.objects.filter(pk__in=selected)
+    entity_urls = [c.file.url for c in entities]
 
-    context = {'colladas': colladas, 'selectedmodels': selectedmodels, 'sceneobjects': sceneobjects}
-    return render(request, 'whatever.html', context)
+    # capture the assets on that scene
+    sceneobjects = scene.assets.all()
+
+    context = {'entities': entities, 'entity_urls': entity_urls,
+               'sceneobjects': sceneobjects}
+    return render(request, template_name, context)

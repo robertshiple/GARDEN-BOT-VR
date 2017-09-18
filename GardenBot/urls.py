@@ -36,6 +36,6 @@ urlpatterns = [
     #url(r'^scene/create/', SceneFormView.as_view(), name='collada'),
     url(r'^api/v1/', include(router.urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
-    url(r'^scene/', scene, name='scene'),
+    url(r'^scene/(?P<slug>\w+)/', scene, name='scene'),
 
 ] + static(settings.MEDIA_URL, document_root=settings.MEDIA_ROOT)

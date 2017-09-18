@@ -29,19 +29,19 @@
     <div id="colladasContainer" class="colladasContainer">
 
         {%  for entity in entities %}
-           <img src="{{ entity.thumb.url }}" width="200" height="200" data-collada="{{ entity.pk }}">
+           <img src="{{ entity.thumb.url }}" width="200" height="200" data-collada="{{ entity.pk }}" class="entities">
         {% endfor %}
 
     </div>
 
     <div id="sceneContainer" class="colladasContainer">
        {%  for scene in scenes %}
-           <img src="{{ scene.thumb.url }}" width="150" height="150" data-scene="{{ scene.pk }}">
+           <img src="{{ scene.thumb.url }}" width="150" height="150" data-scene="/scene/{{ scene.slug }}" class="scene">
         {% endfor %}
     </div>
 
     <div id="button">
-         <form action="{% url 'scene' %}" method="post">
+         <form action="" method="post" id="colladaform">
              {% csrf_token %}
               <input type="hidden" id="plants" name="plants" value="[]">
               <button class="myButton">GENERATE</button>

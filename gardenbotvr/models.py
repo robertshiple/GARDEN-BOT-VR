@@ -1,9 +1,14 @@
 from django.db import models
 import os
+from django.utils.text import slugify
 
 
 class Scene(models.Model):
+    """
+    scene creator. calls for custom scene html AFRAME file.
+    """
     name = models.CharField(max_length=30)
+    slug = models.SlugField(editable=False)
     thumb = models.ImageField(upload_to=os.path.join('gardenbotvr', 'scenes'))
     template = models.CharField(max_length=30)
     skycolor = models.CharField(max_length=30, default='#aaffe8')
@@ -13,8 +18,15 @@ class Scene(models.Model):
     def __str__(self):
         return self.name
 
+    def save(self, *args, **kwargs):
+        self.slug = slugify(self.name)
+        super().save(*args, **kwargs)
+
 
 class Collada(models.Model):
+    """
+    abstract base class for entity and asset. shared fields. no table
+    """
     name = models.CharField(max_length=30)
     file = models.FileField(upload_to=os.path.join('gardenbotvr', 'models'))
     thumb = models.ImageField(upload_to=os.path.join('gardenbotvr', 'thumbs'))
@@ -24,6 +36,9 @@ class Collada(models.Model):
 
 
 class Entity(Collada):
+    """
+    usable by character. not animated i.e sunflower
+    """
     uploaded = models.DateTimeField()
 
     class Meta:
@@ -47,6 +62,10 @@ class Coordinate(models.Model):
 
 
 class Asset(Collada):
+    """
+    assets are scene objects, possibly animated. i.e bird
+    """
+
     is_moving = models.BooleanField(default=False)
     fchord = models.ForeignKey(Coordinate, related_name='from_assets')
     bchord = models.ForeignKey(Coordinate, blank=True, null=True, related_name='to_assets')
@@ -60,9 +79,9 @@ class Asset(Collada):
         """
         if self.is_moving:
             html = f'<a-collada-model src="{self.file.url}" position="{self.fchord.to_aframe_attr()}">' \
-                   f'<a-animation attribute="positon" from="{self.fchord.to_aframe_attr()}" ' \
+                   f'<a-animation attribute="position" from="{self.fchord.to_aframe_attr()}" ' \
                    f'to="{self.bchord.to_aframe_attr()}" delay="0" dur="{self.dchord}" easing="linear" ' \
-                   f'repeat="indefinite" fill="both"></a-animation><a-collada-model>'
+                   f'repeat="indefinite" fill="both"></a-animation></a-collada-model>'
 
         else:
             html = f'<a-collada-model src="{self.file.url}" position="{self.fchord.to_aframe_attr()}"></a-collada-model>'

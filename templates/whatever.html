@@ -1,112 +1,66 @@
 <!DOCTYPE html>
 <html>
 
-
 {% load static %}
 
-
-
-
 <head>
-<title>scene</title>
+
+    <title>scene</title>
 
     <script
-  src="http://code.jquery.com/jquery-3.2.1.js"
-  integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
-  crossorigin="anonymous"></script>
+            src="http://code.jquery.com/jquery-3.2.1.js"
+            integrity="sha256-DZAnKJ/6XZ9si04Hgrsxu/8s717jcIzLy3oi35EouyE="
+            crossorigin="anonymous"></script>
     <script src="https://aframe.io/releases/0.5.0/aframe.min.js"></script>
     <script src="https://unpkg.com/aframe-teleport-controls@0.2.x/dist/aframe-teleport-controls.min.js"></script>
-     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>#}
+    <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>
     <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
-{#    <script src="random_model.js"></script>#}
 
-{#    <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/intersection-spawn.js"></script>#}
+<script>
+    {% autoescape off %}
+        let models = {{ entity_urls }};
+    {% endautoescape %}
+</script>
+
+<script src={% static 'gardenbotvr/js/randommodel.js' %}></script>
+
 </head>
 
 <body>
 
-<script>
-    {% autoescape off %}
-        let models = {{ selectedmodels }};
-    {% endautoescape %}
+<a-scene>
 
-    function getRandomModel() {
-    //returns a random url
-
-        return models[Math.floor(Math.random() * models.length)];
-
-}
-
-AFRAME.registerComponent('intersection-spawn', {
-  schema: {
-    default: '',
-    parse: AFRAME.utils.styleParser.parse
-  },
-
-  init: function () {
-    const data = this.data;
-    const el = this.el;
-
-
-    $(el).on(data.event, evt => {
-      // Create element.
-      const spawnEl = document.createElement('a-entity');
-
-      // Snap intersection point to grid and offset from center.
-      spawnEl.setAttribute('position', evt.detail.intersection.point);
-
-      spawnEl.setAttribute('collada-model', `url(${getRandomModel()})`);
-
-      // Set components and properties.
-      Object.keys(data).forEach(name => {
-        if (name === 'event') { return; }
-        AFRAME.utils.entity.setComponentProperty(spawnEl, name, data[name]);
-      });
-
-      // Append to scene.
-      el.sceneEl.appendChild(spawnEl);
-    });
-  }
-});
-
-
-</script>
-
-
-  <a-scene>
-      
-    <!-- Assets. -->
-    <a-assets>
-        {% for model in colladas %}
-        <a-mixin id="voxel" >
-        </a-mixin>
-        {%  endfor %}
-    </a-assets>
-
-      <a-box color="white" opacity="0.18" width="4" depth="7" height="2">
-    <a-animation attribute="position" from="-4.585 17.063 29.897" to="-4.585 17.063 -33.181" delay="0" dur="36000" easing="linear" repeat="indefinite" fill="both"></a-animation>
+    <a-box color="white" opacity="0.18" width="4" depth="7" height="2">
+        <a-animation attribute="position" from="-4.585 17.063 29.897" to="-4.585 17.063 -33.181" delay="0" dur="36000"
+                     easing="linear" repeat="indefinite" fill="both"></a-animation>
     </a-box>
 
-    <a-cylinder id="ground" material="shader: flat" radius="30" height="0.1" color="#c0ff82" ></a-cylinder>
+    <a-cylinder id="ground" material="shader: flat" radius="30" height="0.1" color="#c0ff82"></a-cylinder>
 
-    {% for model in sceneobjects %}
-    <a-collada-model src="{{ model.file.url }}"></a-collada-model>
-    {%  endfor %}
+     <!-- scene asset generator -->
+    {% for asset in sceneobjects %}
+        {{ asset.to_aframe_animation|safe }}
+    {% endfor %}
+    <!-- scene asset generator -->
 
     <a-sky id="background" theta-length="90" radius="30" color="#aaffe8"></a-sky>
 
-<a-plane color="#ffa72d" height="10" width="10" rotation="-90 0 0" position="-3.120 0.079 2.564"  material="shader: flat" intersection-spawn="event: click; mixin: voxel"></a-plane>
+    <a-plane color="#ffa72d" height="10" width="10" rotation="-90 0 0" position="-3.120 0.079 2.564"
+             material="shader: flat" intersection-spawn="event: click; mixin: voxel"></a-plane>
 
     <!-- Hands. -->
-    <a-entity id="teleHand" hand-controls="left" teleport-controls="type: parabolic; collisionEntities: [mixin='voxel'], #ground"></a-entity>
-    <a-entity id="blockHand" hand-controls="right" controller-cursor intersection-spawn="event: click; mixin: voxel"></a-entity>
+    <a-entity id="teleHand" hand-controls="left"
+              teleport-controls="type: parabolic; collisionEntities: [mixin='voxel'], #ground"></a-entity>
+    <a-entity id="blockHand" hand-controls="right" controller-cursor
+              intersection-spawn="event: click; mixin: voxel"></a-entity>
 
     <!-- Camera. -->
     <a-camera>
-      <a-cursor id="cursor"></a-cursor>
+        <a-cursor id="cursor"></a-cursor>
     </a-camera>
 
-  </a-scene>
+</a-scene>
+
 </body>
 
 </html>
