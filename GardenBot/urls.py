@@ -18,21 +18,22 @@ from django.contrib import admin
 from gardenbotvr.views import home
 from django.conf import settings
 from django.conf.urls.static import static
-from gardenbotvr.views import create_collada, scene
+from gardenbotvr.views import SceneFormView, scene
 from gardenbotvr.api import EntityViewSet, AssetViewSet, SceneViewSet, CoordinateViewSet
 from rest_framework import routers
 
 
+
 router = routers.DefaultRouter()
 router.register(r'entity', EntityViewSet)
-router.register(r'scene', SceneViewSet)
+#router.register(r'scene', SceneViewSet)
 router.register(r'asset', AssetViewSet)
 router.register(r'coordinate', CoordinateViewSet)
 
 urlpatterns = [
     url(r'^admin/', admin.site.urls),
     url(r'^$', home, name='home'),
-    url(r'^threed/create/', create_collada, name='collada'),
+    #url(r'^scene/create/', SceneFormView.as_view(), name='collada'),
     url(r'^api/v1/', include(router.urls, namespace='api')),
     url(r'^api-auth/', include('rest_framework.urls', namespace='rest_framework')),
     url(r'^scene/', scene, name='scene'),

@@ -11,7 +11,7 @@ class EntityForm(forms.ModelForm):
 class AssetForm(forms.ModelForm):
     class Meta:
         model = Asset
-        fields = ('file', 'thumb', 'uploaded', 'name', 'is_moving', 'fchord', 'bchord', 'dchord')
+        fields = ('file', 'thumb', 'name', 'is_moving', 'fchord', 'bchord', 'dchord')
 
 
 class SceneForm(forms.ModelForm):

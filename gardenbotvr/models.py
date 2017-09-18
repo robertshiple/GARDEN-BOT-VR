@@ -14,10 +14,16 @@ class Scene(models.Model):
         return self.name
 
 
-class Entity(models.Model):
+class Collada(models.Model):
     name = models.CharField(max_length=30)
     file = models.FileField(upload_to=os.path.join('gardenbotvr', 'models'))
     thumb = models.ImageField(upload_to=os.path.join('gardenbotvr', 'thumbs'))
+
+    class Meta:
+        abstract = True
+
+
+class Entity(Collada):
     uploaded = models.DateTimeField()
 
     class Meta:
@@ -40,8 +46,7 @@ class Coordinate(models.Model):
         return result
 
 
-
-class Asset(Entity):
+class Asset(Collada):
     is_moving = models.BooleanField(default=False)
     fchord = models.ForeignKey(Coordinate, related_name='from_assets')
     bchord = models.ForeignKey(Coordinate, blank=True, null=True, related_name='to_assets')
