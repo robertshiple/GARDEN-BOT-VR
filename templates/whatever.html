@@ -15,10 +15,11 @@
     <script src="https://unpkg.com/aframe-teleport-controls@0.2.x/dist/aframe-teleport-controls.min.js"></script>
     <script src="https://unpkg.com/aframe-controller-cursor-component@0.2.x/dist/aframe-controller-cursor-component.min.js"></script>
     <script src="https://rawgit.com/ngokevin/kframe/csstricks/scenes/aincraft/components/snap.js"></script>
+    <script src="https://github.com/donmccurdy/aframe-extras/blob/658dfe2db50e0c64dcac7046b84835ed652b98ac/src/controls/touch-controls.js"></script>
 
 <script>
     {% autoescape off %}
-        let models = {{ entity_urls }};
+        let models = {{ entity_data }};
     {% endautoescape %}
 </script>
 
@@ -29,13 +30,26 @@
 <body>
 
 <a-scene>
+    {%  block primitives %}
+        <!-- hard coded models -->
+        <a-box color="white" opacity="0.18" width="4" depth="7" height="2">
+            <a-animation attribute="position" from="-4.585 17.063 29.897" to="-4.585 17.063 -33.181" delay="0" dur="36000"
+                         easing="linear" repeat="indefinite" fill="both"></a-animation>
+        </a-box>
 
-    <a-box color="white" opacity="0.18" width="4" depth="7" height="2">
-        <a-animation attribute="position" from="-4.585 17.063 29.897" to="-4.585 17.063 -33.181" delay="0" dur="36000"
-                     easing="linear" repeat="indefinite" fill="both"></a-animation>
-    </a-box>
+        <a-box color="white" opacity="0.18" width="4" depth="8" height="2">
+            <a-animation attribute="position" from="9 20 29.897" to="9 20 -33.181" delay="0" dur="50000"
+                         easing="linear" repeat="indefinite" fill="both"></a-animation>
 
-    <a-cylinder id="ground" material="shader: flat" radius="30" height="0.1" color="#c0ff82"></a-cylinder>
+         <a-sound src="src: url(https://freemusicarchive.org/music/download/f00474c834173174ba618bde4139a5dbefbc3008)" autoplay="true" position="0 2 5"></a-sound>
+
+
+        </a-box>
+        <!-- hard coded models -->
+
+        <a-cylinder id="ground" material="shader: flat" radius="30" height="0.1" color="{{ scene.groundcolor }}"></a-cylinder>
+
+    {% endblock %}
 
      <!-- scene asset generator -->
     {% for asset in sceneobjects %}
@@ -43,10 +57,16 @@
     {% endfor %}
     <!-- scene asset generator -->
 
-    <a-sky id="background" theta-length="90" radius="30" color="#aaffe8"></a-sky>
 
-    <a-plane color="#ffa72d" height="10" width="10" rotation="-90 0 0" position="-3.120 0.079 2.564"
-             material="shader: flat" intersection-spawn="event: click; mixin: voxel"></a-plane>
+
+
+    <a-sky id="background" theta-length="90" radius="{{ scene.radius }}" color="{{ scene.skycolor }}"></a-sky>
+
+
+
+
+    <a-plane color="#f4bc42" height="10" width="10" rotation="-90 0 0" position="-3.120 0.079 2.564"
+             material="{{ scene.render_ground_material }}" intersection-spawn="event: click onTouchEnd; mixin: voxel"></a-plane>
 
     <!-- Hands. -->
     <a-entity id="teleHand" hand-controls="left"
@@ -56,7 +76,9 @@
 
     <!-- Camera. -->
     <a-camera>
-        <a-cursor id="cursor"></a-cursor>
+
+        <a-entity id="cursor" position="0 0 -1" geometry="primitive: ring; radiusOuter: 0.016; radiusInner: 0.01" material="color: #FFF;" cursor="click: true; maxDistance: 10" raycaster scale="1 1 1"></a-entity>
+
     </a-camera>
 
 </a-scene>

@@ -43,11 +43,12 @@ def scene(request, slug):
 
     # retrieve user selection from the database
     entities = Entity.objects.filter(pk__in=selected)
-    entity_urls = [c.file.url for c in entities]
+    entity_data = [{"model": c.file.url} for c in entities]
+
 
     # capture the assets on that scene
     sceneobjects = scene.assets.all()
 
-    context = {'entities': entities, 'entity_urls': entity_urls,
-               'sceneobjects': sceneobjects}
+    context = {'entities': entities, 'entity_data': entity_data,
+               'sceneobjects': sceneobjects, 'scene': scene}
     return render(request, template_name, context)
