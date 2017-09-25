@@ -63,13 +63,14 @@ class Entity(Gltf):
 
 
 class Coordinate(models.Model):
-    x = models.IntegerField()
-    y = models.IntegerField()
-    z = models.IntegerField()
+    name = models.CharField(max_length=30, blank=True, null=True)
+    x = models.FloatField()
+    y = models.FloatField()
+    z = models.FloatField()
     randomize = models.BooleanField(default=False)
 
     def __str__(self):
-        return f'random: {self.randomize} {self.x}, {self.y}, {self.z}'
+        return f'{self.name} COORD: {self.randomize} {self.x}, {self.y}, {self.z}'
 
     def to_aframe_attr(self):
         if self.randomize:
@@ -78,6 +79,11 @@ class Coordinate(models.Model):
             z = self.z
         result = f'{self.x} {self.y} {z}'
         return result
+
+
+class Rotation(Coordinate):
+    def __str__(self):
+        return f'{self.name} ROT: {self.randomize} {self.x}, {self.y}, {self.z}'
 
 
 class Asset(Gltf):
@@ -89,6 +95,7 @@ class Asset(Gltf):
     fchord = models.ForeignKey(Coordinate, related_name='from_assets')
     bchord = models.ForeignKey(Coordinate, blank=True, null=True, related_name='to_assets')
     dchord = models.IntegerField(blank=True, null=True)
+    rotation = models.ForeignKey(Rotation)
 
     def to_aframe_animation(self):
         """
@@ -97,26 +104,25 @@ class Asset(Gltf):
 
         """
         if self.is_moving:
-
             html = f'''
-            <a-gltf-model src="{self.file.url}" position="{self.fchord.to_aframe_attr()}">
-                   <a-animation attribute="position" from="{self.fchord.to_aframe_attr()}" 
-                   to="{self.bchord.to_aframe_attr()}" delay="0" dur="{self.dchord}" easing="linear" 
-                   repeat="indefinite" fill="both"></a-animation></a-gltf-model>
-            
-            '''
-            #
-            # html = f'<a-gltf-model src="{self.file.url}" material={self.render_material()} position="{self.fchord.to_aframe_attr()}">' \
-            #        f'<a-animation attribute="position" from="{self.fchord.to_aframe_attr()}" ' \
-            #        f'to="{self.bchord.to_aframe_attr()}" delay="0" dur="{self.dchord}" easing="linear" ' \
-            #        f'repeat="indefinite" fill="both"></a-animation></a-gltf-model>'
-
+                  <a-entity gltf-model="url({self.file.url})" position="{self.fchord.to_aframe_attr()}" 
+                            mixin="asset" rotation="{self.rotation.to_aframe_attr()}">
+                       <a-animation attribute="position" from="{self.fchord.to_aframe_attr()}" 
+                           to="{self.bchord.to_aframe_attr()}" delay="0" dur="{self.dchord}" easing="linear" 
+                           repeat="indefinite" fill="both">
+                        </a-animation>
+                   </a-entity>
+                   '''
         else:
-            html = f'<a-gltf-model src="{self.file.url}" position="{self.fchord.to_aframe_attr()}"></a-gltf-model>'
+            html = f'''<a-entity gltf-model="url({self.file.url})" 
+                          position="{self.fchord.to_aframe_attr()}" mixin="asset" 
+                          rotation="{self.rotation.to_aframe_attr()}"></a-entity>'''
         return html
 
     def __str__(self):
         return self.name
+
+
 
 
 
