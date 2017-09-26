@@ -1,5 +1,5 @@
 
-<h2>Garden Bot VR is a virtual garden simluator for Google Cardboard. 
+<h2>Garden Bot VR is a virtual garden simluator for Google Cardboard. </h2>
 
 instructions:
 
